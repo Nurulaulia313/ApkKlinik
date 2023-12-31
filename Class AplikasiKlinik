@@ -95,13 +95,6 @@ public class AplikasiKlinik extends JFrame {
         labelTotalBiaya = new JLabel("Total Biaya: ");
         add(labelTotalBiaya, BorderLayout.SOUTH);
 
-        // Menambahkan label untuk menampilkan gambar di bagian atas
-        labelGambar = new JLabel();
-        add(labelGambar, BorderLayout.NORTH);
-
-        // Muat gambar dari file
-        ImageIcon imageIcon = new ImageIcon("https://globalconsultant.id/wp-content/uploads/2022/03/KLINIK.jpg");
-        labelGambar.setIcon(imageIcon);
 
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Nama");
