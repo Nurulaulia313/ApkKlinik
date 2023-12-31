@@ -17,7 +17,7 @@ public class AplikasiKlinik extends JFrame {
     public AplikasiKlinik() {
         klinikApp = new KlinikApp();
 
-        setTitle("Aplikasi Klinik");
+        setTitle("Aplikasi Klinik By Nurul Aulia Salsabila");
         setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
