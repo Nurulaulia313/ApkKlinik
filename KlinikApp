@@ -1,0 +1,36 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class KlinikApp {
+    private List<Pasien> daftarPasien;
+
+    public KlinikApp() {
+        this.daftarPasien = new ArrayList<>();
+    }
+
+    public void tambahPasien(String nama, String alamat, String nomorRekamMedis, String jenisKelamin, int lamaInap, long hargaPerHari, String namaRuangan, String tipeKamar) {
+        Pasien pasien = new Pasien(nama, alamat, nomorRekamMedis, jenisKelamin, lamaInap, hargaPerHari, namaRuangan, tipeKamar);
+        daftarPasien.add(pasien);
+    }
+
+    public List<Pasien> getDaftarPasien() {
+        return daftarPasien;
+    }
+    public boolean hapusPasien(String nomorRekamMedis) {
+        for (Pasien pasien : daftarPasien) {
+            if (pasien.getNomorRekamMedis().equals(nomorRekamMedis)) {
+                daftarPasien.remove(pasien);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public long hitungTotalBiaya() {
+        long totalBiaya = 0;
+        for (Pasien pasien : daftarPasien) {
+            totalBiaya += pasien.getTotal();
+        }
+        return totalBiaya;
+    }
+}
