@@ -1,0 +1,217 @@
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
+public class AplikasiKlinik extends JFrame {
+    private JTextField fieldNama, fieldAlamat, fieldNomorRekamMedis, fieldLamaInap, fieldNamaRuangan;
+    private JComboBox<String> comboJenisKelamin, comboTipeKamar;
+    private KlinikApp klinikApp;
+    private DefaultTableModel tableModel;
+    private JLabel labelTotalBiaya, labelGambar;
+
+    public AplikasiKlinik() {
+        klinikApp = new KlinikApp();
+
+        setTitle("Aplikasi Klinik");
+        setSize(800, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(15, 5));
+
+        inputPanel.add(new JLabel("Nama: "));
+        fieldNama = new JTextField();
+        fieldNama.setColumns(15);
+        inputPanel.add(fieldNama);
+
+        inputPanel.add(new JLabel("Alamat: "));
+        fieldAlamat = new JTextField();
+        fieldAlamat.setColumns(15);
+        inputPanel.add(fieldAlamat);
+
+        inputPanel.add(new JLabel("Nomor Rekam Medis: "));
+        fieldNomorRekamMedis = new JTextField();
+        inputPanel.add(fieldNomorRekamMedis);
+
+        inputPanel.add(new JLabel("Jenis Kelamin: "));
+        String[] jenisKelaminOptions = {"Laki-laki", "Perempuan"};
+        comboJenisKelamin = new JComboBox<>(jenisKelaminOptions);
+        inputPanel.add(comboJenisKelamin);
+
+        inputPanel.add(new JLabel("Lama Inap: "));
+        fieldLamaInap = new JTextField();
+        inputPanel.add(fieldLamaInap);
+
+        inputPanel.add(new JLabel("Nama Ruangan: "));
+        fieldNamaRuangan = new JTextField();
+        inputPanel.add(fieldNamaRuangan);
+
+        inputPanel.add(new JLabel("Tipe Kamar: "));
+        String[] tipeKamarOptions = {"VIP", "Biasa"};
+        comboTipeKamar = new JComboBox<>(tipeKamarOptions);
+        inputPanel.add(comboTipeKamar);
+
+        JButton buttonTambah = new JButton("Tambah Pasien");
+        buttonTambah.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tambahPasien();
+            }
+        });
+        inputPanel.add(buttonTambah);
+
+        JButton buttonTampilkan = new JButton("Tampilkan Pasien");
+        buttonTampilkan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tampilkanPasien();
+            }
+        });
+        inputPanel.add(buttonTampilkan);
+
+        JButton buttonKeluar = new JButton("Keluar");
+        buttonKeluar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                keluarAplikasi();
+            }
+        });
+        inputPanel.add(buttonKeluar);
+        JButton buttonHapus = new JButton("Hapus Pasien");
+        buttonHapus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                hapusData();
+            }
+        });
+        inputPanel.add(buttonHapus);
+
+        // Menambahkan label untuk menampilkan total biaya
+        labelTotalBiaya = new JLabel("Total Biaya: ");
+        add(labelTotalBiaya, BorderLayout.SOUTH);
+
+        // Menambahkan label untuk menampilkan gambar di bagian atas
+        labelGambar = new JLabel();
+        add(labelGambar, BorderLayout.NORTH);
+
+        // Muat gambar dari file
+        ImageIcon imageIcon = new ImageIcon("https://globalconsultant.id/wp-content/uploads/2022/03/KLINIK.jpg");
+        labelGambar.setIcon(imageIcon);
+
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Nama");
+        tableModel.addColumn("Alamat");
+        tableModel.addColumn("Nomor Rekam Medis");
+        tableModel.addColumn("Jenis Kelamin");
+        tableModel.addColumn("Lama Inap");
+        tableModel.addColumn("Nama Ruangan");
+        tableModel.addColumn("Tipe Kamar");
+        tableModel.addColumn("Total Biaya");
+
+        JTable tablePasien = new JTable(tableModel);
+
+        JScrollPane scrollPane = new JScrollPane(tablePasien);
+
+        setLayout(new BorderLayout());
+        add(inputPanel, BorderLayout.WEST);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void tambahPasien() {
+        String nama = fieldNama.getText();
+        String alamat = fieldAlamat.getText();
+        String nomorRekamMedis = fieldNomorRekamMedis.getText();
+        String jenisKelamin = (String) comboJenisKelamin.getSelectedItem();
+
+        try {
+            int lamaInap = Integer.parseInt(fieldLamaInap.getText());
+            String namaRuangan = fieldNamaRuangan.getText();
+            String tipeKamar = (String) comboTipeKamar.getSelectedItem();
+
+            long hargaPerHari;
+            if (tipeKamar.equals("VIP")) {
+                hargaPerHari = 2000000;
+            } else {
+                hargaPerHari = 1000000;
+            }
+
+            klinikApp.tambahPasien(nama, alamat, nomorRekamMedis, jenisKelamin, lamaInap, hargaPerHari, namaRuangan, tipeKamar);
+
+            fieldNama.setText("");
+            fieldAlamat.setText("");
+            fieldNomorRekamMedis.setText("");
+            fieldLamaInap.setText("");
+            fieldNamaRuangan.setText("");
+            comboJenisKelamin.setSelectedIndex(0);
+            comboTipeKamar.setSelectedIndex(0);
+
+            updateTotalBiaya();
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Masukkan angka yang valid untuk Lama Inap.");
+        }
+    }
+
+    private void tampilkanPasien() {
+        List<Pasien> daftarPasien = klinikApp.getDaftarPasien();
+        tableModel.setRowCount(0);
+
+        for (Pasien pasien : daftarPasien) {
+            Object[] rowData = {
+                    pasien.getNama(),
+                    pasien.getAlamat(),
+                    pasien.getNomorRekamMedis(),
+                    pasien.getJenisKelamin(),
+                    pasien.getLamaInap(),
+                    pasien.getNamaRuangan(),
+                    pasien.getTipeKamar(),
+                    formatRupiah(pasien.getTotal())
+            };
+            tableModel.addRow(rowData);
+        }
+
+        updateTotalBiaya();
+    }
+    private void hapusData() {
+        String nomorRekamMedis = JOptionPane.showInputDialog(this, "Masukkan Nomor Rekam Medis pasien yang ingin dihapus:");
+        if (nomorRekamMedis != null && !nomorRekamMedis.isEmpty()) {
+            boolean removed = klinikApp.hapusPasien(nomorRekamMedis);
+            if (removed) {
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus.");
+                tampilkanPasien();
+            } else {
+                JOptionPane.showMessageDialog(this, "Pasien dengan Nomor Rekam Medis tersebut tidak ditemukan.");
+            }
+        }
+    }
+
+    private void updateTotalBiaya() {
+        long totalBiaya = klinikApp.hitungTotalBiaya();
+        labelTotalBiaya.setText("Total Biaya: " + formatRupiah(totalBiaya));
+    }
+
+    private void keluarAplikasi() {
+        int jawaban = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin keluar?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        if (jawaban == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
+
+    private String formatRupiah(long nominal) {
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+        return formatRupiah.format(nominal);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new AplikasiKlinik().setVisible(true);
+            }
+        });
+    }
+}
