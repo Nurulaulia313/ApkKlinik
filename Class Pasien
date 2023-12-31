@@ -1,0 +1,57 @@
+public class Pasien {
+    private String nama;
+    private String alamat;
+    private String nomorRekamMedis;
+    private String jenisKelamin;
+    private int lamaInap;
+    private long hargaPerHari;
+    private String namaRuangan;
+    private String tipeKamar;
+
+    public Pasien(String nama, String alamat, String nomorRekamMedis, String jenisKelamin, int lamaInap, long hargaPerHari, String namaRuangan, String tipeKamar) {
+        this.nama = nama;
+        this.alamat = alamat;
+        this.nomorRekamMedis = nomorRekamMedis;
+        this.jenisKelamin = jenisKelamin;
+        this.lamaInap = lamaInap;
+        this.hargaPerHari = hargaPerHari;
+        this.namaRuangan = namaRuangan;
+        this.tipeKamar = tipeKamar;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public String getNomorRekamMedis() {
+        return nomorRekamMedis;
+    }
+
+    public String getJenisKelamin() {
+        return jenisKelamin;
+    }
+
+    public int getLamaInap() {
+        return lamaInap;
+    }
+
+    public long getHargaPerHari() {
+        return hargaPerHari;
+    }
+
+    public String getNamaRuangan() {
+        return namaRuangan;
+    }
+
+    public String getTipeKamar() {
+        return tipeKamar;
+    }
+
+    public long getTotal() {
+        return lamaInap * hargaPerHari;
+    }
+}
