@@ -12,7 +12,7 @@ public class AplikasiKlinik extends JFrame {
     private JComboBox<String> comboJenisKelamin, comboTipeKamar;
     private KlinikApp klinikApp;
     private DefaultTableModel tableModel;
-    private JLabel labelTotalBiaya, labelGambar;
+    private JLabel labelTotalBiaya;
 
     public AplikasiKlinik() {
         klinikApp = new KlinikApp();
@@ -121,34 +121,52 @@ public class AplikasiKlinik extends JFrame {
         String nomorRekamMedis = fieldNomorRekamMedis.getText();
         String jenisKelamin = (String) comboJenisKelamin.getSelectedItem();
 
+        // Menggunakan try-catch untuk menangani kesalahan saat konversi numerik
         try {
             int lamaInap = Integer.parseInt(fieldLamaInap.getText());
             String namaRuangan = fieldNamaRuangan.getText();
             String tipeKamar = (String) comboTipeKamar.getSelectedItem();
 
+            // Mendapatkan harga per hari sesuai dengan tipe kamar
             long hargaPerHari;
             if (tipeKamar.equals("VIP")) {
-                hargaPerHari = 2000000;
+                hargaPerHari = 2000000; // Ganti dengan harga sesuai VIP
             } else {
-                hargaPerHari = 1000000;
+                hargaPerHari = 1000000; // Ganti dengan harga sesuai Biasa
             }
 
             klinikApp.tambahPasien(nama, alamat, nomorRekamMedis, jenisKelamin, lamaInap, hargaPerHari, namaRuangan, tipeKamar);
 
+            // Reset input fields
             fieldNama.setText("");
             fieldAlamat.setText("");
             fieldNomorRekamMedis.setText("");
             fieldLamaInap.setText("");
             fieldNamaRuangan.setText("");
-            comboJenisKelamin.setSelectedIndex(0);
-            comboTipeKamar.setSelectedIndex(0);
+            comboJenisKelamin.setSelectedIndex(0); // Set jenis kelamin kembali ke default
+            comboTipeKamar.setSelectedIndex(0); // Set tipe kamar kembali ke default
 
+            // Setelah menambah pasien, print data to console
+            printDataToConsole(nama, alamat, nomorRekamMedis, jenisKelamin, lamaInap, hargaPerHari, namaRuangan, tipeKamar);
+
+            // Setelah menambah pasien, update tampilan total biaya
             updateTotalBiaya();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Masukkan angka yang valid untuk Lama Inap.");
         }
     }
 
+    private void printDataToConsole(String nama, String alamat, String nomorRekamMedis, String jenisKelamin, int lamaInap, long hargaPerHari, String namaRuangan, String tipeKamar) {
+        System.out.println("Nama: " + nama);
+        System.out.println("Alamat: " + alamat);
+        System.out.println("Nomor Rekam Medis: " + nomorRekamMedis);
+        System.out.println("Jenis Kelamin: " + jenisKelamin);
+        System.out.println("Lama Inap: " + lamaInap);
+        System.out.println("Harga Per Hari: " + hargaPerHari);
+        System.out.println("Nama Ruangan: " + namaRuangan);
+        System.out.println("Tipe Kamar: " + tipeKamar);
+        System.out.println("==============================================");
+    }
     private void tampilkanPasien() {
         List<Pasien> daftarPasien = klinikApp.getDaftarPasien();
         tableModel.setRowCount(0);
