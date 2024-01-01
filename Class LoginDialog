@@ -9,14 +9,13 @@ public class LoginDialog extends JDialog {
     private JButton loginButton;
 
     public LoginDialog(JFrame parent) {
-        super(parent, "Login", true);
+        super(parent, "Login Aplikasi", true);
 
         // Set layout manager
         setLayout(new GridLayout(10, 50));
 
-
         // Create Swing components
-        JLabel titleLabel = new JLabel("APLIKASI DAFTAR KLINIK ONLINE", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel(" ====== APLIKASI DAFTAR KLINIK ONLINE ====== ", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 20));
 
         usernameField = new JTextField(50);
@@ -44,6 +43,7 @@ public class LoginDialog extends JDialog {
 
                 // Check username and password (You should replace this with your own validation logic)
                 if ("admin".equals(username) && "admin123".equals(new String(password))) {
+                    System.out.println("Login successful!"); // Output to console
                     // If login is successful, close the dialog
                     dispose();
 
@@ -51,6 +51,7 @@ public class LoginDialog extends JDialog {
                     AplikasiKlinik mainFrame = new AplikasiKlinik();
                     mainFrame.setVisible(true);
                 } else {
+                    System.out.println("Login failed!"); // Output to console
                     // If login fails, show an error message
                     JOptionPane.showMessageDialog(LoginDialog.this, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
                 }
