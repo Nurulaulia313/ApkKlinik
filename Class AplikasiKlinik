@@ -157,6 +157,7 @@ public class AplikasiKlinik extends JFrame {
     }
 
     private void printDataToConsole(String nama, String alamat, String nomorRekamMedis, String jenisKelamin, int lamaInap, long hargaPerHari, String namaRuangan, String tipeKamar) {
+        System.out.println("=============================================");
         System.out.println("Nama: " + nama);
         System.out.println("Alamat: " + alamat);
         System.out.println("Nomor Rekam Medis: " + nomorRekamMedis);
