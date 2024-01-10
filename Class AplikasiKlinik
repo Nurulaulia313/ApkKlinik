@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -99,7 +101,7 @@ public class AplikasiKlinik extends JFrame {
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Nama");
         tableModel.addColumn("Alamat");
-        tableModel.addColumn("Nomor Rekam Medis");
+        tableModel.addColumn("Nomor Rekam Medis ");
         tableModel.addColumn("Jenis Kelamin");
         tableModel.addColumn("Lama Inap");
         tableModel.addColumn("Nama Ruangan");
@@ -156,16 +158,21 @@ public class AplikasiKlinik extends JFrame {
         }
     }
 
+
+
     private void printDataToConsole(String nama, String alamat, String nomorRekamMedis, String jenisKelamin, int lamaInap, long hargaPerHari, String namaRuangan, String tipeKamar) {
-        System.out.println("=============================================");
-        System.out.println("Nama: " + nama);
-        System.out.println("Alamat: " + alamat);
-        System.out.println("Nomor Rekam Medis: " + nomorRekamMedis);
-        System.out.println("Jenis Kelamin: " + jenisKelamin);
-        System.out.println("Lama Inap: " + lamaInap);
-        System.out.println("Harga Per Hari: " + hargaPerHari);
-        System.out.println("Nama Ruangan: " + namaRuangan);
-        System.out.println("Tipe Kamar: " + tipeKamar);
+        long totalBiaya = lamaInap * hargaPerHari;
+
+        System.out.println("=============== DATA PASIEN  =================");
+        System.out.println("Nama                 : " + nama);
+        System.out.println("Alamat               : " + alamat);
+        System.out.println("Nomor Rekam Medis    : " + nomorRekamMedis);
+        System.out.println("Jenis Kelamin        : " + jenisKelamin);
+        System.out.println("Lama Inap            : " + lamaInap);
+        System.out.println("Nama Ruangan         : " + namaRuangan);
+        System.out.println("Tipe Kamar           : " + tipeKamar);
+        System.out.println("Harga Per Hari       : " + hargaPerHari);
+        System.out.println("Total Biaya          : " + formatRupiah(totalBiaya));
         System.out.println("==============================================");
     }
     private void tampilkanPasien() {
@@ -225,5 +232,6 @@ public class AplikasiKlinik extends JFrame {
                 new AplikasiKlinik().setVisible(true);
             }
         });
+
     }
 }
