@@ -7,12 +7,15 @@ public class LoginDialog extends JDialog {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton loginButton;
+    private JButton masukButton;
+    private JLabel usernameLabel; // Added label for "Username"
+    private JLabel passwordLabel; // Added label for "Password"
 
     public LoginDialog(JFrame parent) {
         super(parent, "Login Aplikasi", true);
 
         // Set layout manager
-        setLayout(new GridLayout(10, 50));
+        setLayout(new GridLayout(12, 1));
 
         // Create Swing components
         JLabel titleLabel = new JLabel(" ====== APLIKASI DAFTAR KLINIK ONLINE ====== ", SwingConstants.CENTER);
@@ -20,19 +23,37 @@ public class LoginDialog extends JDialog {
 
         usernameField = new JTextField(50);
         passwordField = new JPasswordField(50);
+        masukButton = new JButton("Masuk");
         loginButton = new JButton("Login");
+        usernameLabel = new JLabel("Username:");
+        passwordLabel = new JLabel("Password:");
 
         // Add components to the dialog
         add(new JLabel());
         add(titleLabel);
         add(new JLabel()); // Empty label for layout purposes
-        add(new JLabel());
-        add(new JLabel("Username:"));
-        add(usernameField);
-        add(new JLabel("Password:"));
-        add(passwordField);
+        add(masukButton); // "Masuk" button initially
+        add(usernameLabel); // "Username" label initially hidden
+        add(usernameField); // "Username" field initially hidden
+        add(passwordLabel); // "Password" label initially hidden
+        add(passwordField); // "Password" field initially hidden
         add(new JLabel()); // Empty label for layout purposes
-        add(loginButton);
+        add(loginButton); // "Login" button initially hidden
+        add(new JLabel()); // Empty label for layout purposes
+
+        // Set action listener for the "Masuk" button
+        masukButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Show the login components
+                usernameLabel.setVisible(true);
+                usernameField.setVisible(true);
+                passwordLabel.setVisible(true);
+                passwordField.setVisible(true);
+                loginButton.setVisible(true);
+                masukButton.setVisible(false); // Hide the "Masuk" button
+            }
+        });
 
         // Set action listener for the login button
         loginButton.addActionListener(new ActionListener() {
@@ -43,7 +64,12 @@ public class LoginDialog extends JDialog {
 
                 // Check username and password (You should replace this with your own validation logic)
                 if ("admin".equals(username) && "admin123".equals(new String(password))) {
-                    System.out.println("Login successful!"); // Output to console
+                    System.out.println("                       LOGIN SUCCESSFUL!                  "); // Output to console
+                    System.out.println();
+                    System.out.println("==========================================================");
+                    System.out.println("| SELAMAT MASUK KE PROGRAM APLIKASI DAFTAR KLINIK ONLINE |");
+                    System.out.println("==========================================================");
+
                     // If login is successful, close the dialog
                     dispose();
 
@@ -60,6 +86,13 @@ public class LoginDialog extends JDialog {
                 passwordField.setText("");
             }
         });
+
+        // Initially hide the login components
+        usernameLabel.setVisible(false);
+        usernameField.setVisible(false);
+        passwordLabel.setVisible(false);
+        passwordField.setVisible(false);
+        loginButton.setVisible(false);
 
         // Set dialog properties
         pack();
